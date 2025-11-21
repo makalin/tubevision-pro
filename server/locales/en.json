@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "titles": "Title Generator",
+    "script": "Script Architect",
+    "thumbnail": "Thumbnail Studio",
+    "competitor": "Competitor Spy",
+    "shorts": "Shorts Engine",
+    "seo": "SEO Auditor",
+    "calendar": "Content Calendar",
+    "ideas": "Video Ideas",
+    "analytics": "Analytics",
+    "revenue": "Revenue",
+    "keywords": "Keywords",
+    "videos": "Video Library"
+  },
+  "dashboard": {
+    "title": "Overview",
+    "subtitle": "Welcome back, {name}. Here are your channel metrics.",
+    "totalViews": "Total Views",
+    "ctr": "Click-Through Rate",
+    "revenue": "Est. Revenue",
+    "last28Days": "Last 28 Days",
+    "recentActivity": "Recent Activity Log"
+  },
+  "titles": {
+    "title": "Viral Title Generator",
+    "subtitle": "Generate high-CTR titles using AI logic.",
+    "placeholder": "Enter video topic (e.g. 'Coding Interview')",
+    "generate": "Generate Titles",
+    "score": "Score"
+  },
+  "script": {
+    "title": "Script Architect",
+    "subtitle": "Structure your videos for maximum retention.",
+    "hook": "The Hook (0:00 - 0:30)",
+    "hookPlaceholder": "Grab attention instantly. Statement, Question, or Teaser.",
+    "intro": "The Setup (0:30 - 1:00)",
+    "introPlaceholder": "Who are you? What will they learn? Show proof.",
+    "content": "The Content (The Meat)",
+    "contentPlaceholder": "Step 1, Step 2, Step 3. Deliver on the promise.",
+    "cta": "Call to Action (CTA)",
+    "ctaPlaceholder": "Subscribe, check the link in bio, watch next video.",
+    "copy": "Copy Full Script to Clipboard",
+    "templates": "Load Template"
+  },
+  "thumbnail": {
+    "title": "Thumbnail Studio",
+    "subtitle": "Create pro-level thumbnails with HTML5 Canvas.",
+    "headline": "Headline Text",
+    "bgColor": "Background Color",
+    "fontSize": "Font Size",
+    "overlay": "Overlay Opacity",
+    "upload": "Upload Background Image",
+    "download": "Download PNG",
+    "presets": "Presets"
+  },
+  "competitor": {
+    "title": "Competitor Spy",
+    "subtitle": "Benchmark against your niche.",
+    "name": "Competitor Name",
+    "url": "Channel URL (optional)",
+    "views": "Average Views per Video",
+    "add": "Add Competitor",
+    "refresh": "Refresh List",
+    "yourChannel": "Your Channel"
+  },
+  "shorts": {
+    "title": "Shorts Viral Engine",
+    "subtitle": "Generate optimized hashtags for vertical content.",
+    "placeholder": "Shorts Topic (e.g. Cooking Fail)",
+    "generate": "Generate Hashtags"
+  },
+  "seo": {
+    "title": "SEO Auditor",
+    "subtitle": "Analyze your video metadata for maximum discoverability.",
+    "videoTitle": "Video Title",
+    "description": "Description",
+    "tags": "Tags (comma-separated)",
+    "analyze": "Run SEO Analysis",
+    "overallScore": "Overall SEO Score"
+  },
+  "calendar": {
+    "title": "Content Calendar",
+    "subtitle": "Schedule and manage your content publishing.",
+    "addEvent": "Add New Event",
+    "eventTitle": "Event Title",
+    "date": "Date",
+    "time": "Time",
+    "type": "Type",
+    "schedule": "Schedule Event",
+    "upcoming": "Upcoming Events",
+    "types": {
+      "publish": "Publish Video",
+      "premiere": "Premiere",
+      "shorts": "Shorts",
+      "live": "Live Stream",
+      "other": "Other"
+    }
+  },
+  "ideas": {
+    "title": "Video Ideas Board",
+    "subtitle": "Capture and organize your content ideas.",
+    "addIdea": "Add New Idea",
+    "ideaTitle": "Idea Title",
+    "description": "Description",
+    "category": "Category",
+    "priority": "Priority",
+    "add": "Add Idea",
+    "yourIdeas": "Your Ideas",
+    "categories": {
+      "tutorial": "Tutorial",
+      "review": "Review",
+      "entertainment": "Entertainment",
+      "news": "News",
+      "general": "General"
+    },
+    "priorities": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    }
+  },
+  "analytics": {
+    "title": "Analytics Dashboard",
+    "subtitle": "Track your channel performance metrics.",
+    "totalViews": "Total Views",
+    "watchTime": "Watch Time (hours)",
+    "subscribers": "Subscribers Gained",
+    "addData": "Add Analytics Data",
+    "date": "Date",
+    "views": "Views",
+    "watchTimeInput": "Watch Time (hours)",
+    "subs": "Subscribers Gained",
+    "add": "Add Data",
+    "recent": "Recent Analytics"
+  },
+  "revenue": {
+    "title": "Revenue Calculator",
+    "subtitle": "Estimate and track your earnings.",
+    "calculate": "Calculate Revenue",
+    "totalViews": "Total Views",
+    "rpm": "RPM (Revenue per 1000 views)",
+    "calculateBtn": "Calculate",
+    "estimated": "Estimated revenue for {views} views at ${rpm} RPM",
+    "history": "Revenue History",
+    "total": "Total Revenue"
+  },
+  "keywords": {
+    "title": "Keyword Research",
+    "subtitle": "Find and analyze keywords for your content.",
+    "research": "Research Keyword",
+    "keyword": "Keyword",
+    "saved": "Saved Keywords",
+    "volume": "Volume",
+    "competition": "Competition"
+  },
+  "videos": {
+    "title": "Video Library",
+    "subtitle": "Manage all your videos in one place.",
+    "addVideo": "Add Video",
+    "videoTitle": "Video Title",
+    "status": "Status",
+    "publishDate": "Publish Date",
+    "videoUrl": "Video URL",
+    "add": "Add Video",
+    "yourVideos": "Your Videos",
+    "statuses": {
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "published": "Published",
+      "private": "Private"
+    }
+  },
+  "common": {
+    "export": "Export Data",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "noData": "No data available",
+    "language": "Language"
+  },
+  "messages": {
+    "scriptCopied": "Script copied to clipboard and saved!",
+    "titleGenerated": "Titles generated successfully!",
+    "ideaAdded": "Idea added!",
+    "eventScheduled": "Event scheduled!",
+    "videoAdded": "Video added!",
+    "dataAdded": "Data added!",
+    "keywordResearched": "Keyword researched!",
+    "competitorAdded": "Competitor added!"
+  }
+}
+

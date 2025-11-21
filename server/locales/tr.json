@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "dashboard": "Kontrol Paneli",
+    "titles": "Başlık Üretici",
+    "script": "Senaryo Mimarı",
+    "thumbnail": "Küçük Resim Stüdyosu",
+    "competitor": "Rakip İzleme",
+    "shorts": "Shorts Motoru",
+    "seo": "SEO Denetçisi",
+    "calendar": "İçerik Takvimi",
+    "ideas": "Video Fikirleri",
+    "analytics": "Analitik",
+    "revenue": "Gelir",
+    "keywords": "Anahtar Kelimeler",
+    "videos": "Video Kütüphanesi"
+  },
+  "dashboard": {
+    "title": "Genel Bakış",
+    "subtitle": "Tekrar hoş geldin, {name}. İşte kanal metriklerin.",
+    "totalViews": "Toplam Görüntülenme",
+    "ctr": "Tıklama Oranı",
+    "revenue": "Tahmini Gelir",
+    "last28Days": "Son 28 Gün",
+    "recentActivity": "Son Aktiviteler"
+  },
+  "titles": {
+    "title": "Viral Başlık Üretici",
+    "subtitle": "AI mantığı kullanarak yüksek tıklama oranlı başlıklar oluşturun.",
+    "placeholder": "Video konusu girin (örn. 'Kodlama Mülakatı')",
+    "generate": "Başlık Üret",
+    "score": "Puan"
+  },
+  "script": {
+    "title": "Senaryo Mimarı",
+    "subtitle": "Videolarınızı maksimum izlenme için yapılandırın.",
+    "hook": "Kanca (0:00 - 0:30)",
+    "hookPlaceholder": "Anında dikkat çekin. İfade, Soru veya Teaser.",
+    "intro": "Giriş (0:30 - 1:00)",
+    "introPlaceholder": "Kimsiniz? Ne öğrenecekler? Kanıt gösterin.",
+    "content": "İçerik (Ana Bölüm)",
+    "contentPlaceholder": "Adım 1, Adım 2, Adım 3. Sözü yerine getirin.",
+    "cta": "Harekete Geçirici (CTA)",
+    "ctaPlaceholder": "Abone ol, biyodaki linke bak, sonraki videoyu izle.",
+    "copy": "Tam Senaryoyu Panoya Kopyala",
+    "templates": "Şablon Yükle"
+  },
+  "thumbnail": {
+    "title": "Küçük Resim Stüdyosu",
+    "subtitle": "HTML5 Canvas ile profesyonel küçük resimler oluşturun.",
+    "headline": "Başlık Metni",
+    "bgColor": "Arka Plan Rengi",
+    "fontSize": "Yazı Boyutu",
+    "overlay": "Kaplama Opaklığı",
+    "upload": "Arka Plan Resmi Yükle",
+    "download": "PNG İndir",
+    "presets": "Hazır Ayarlar"
+  },
+  "competitor": {
+    "title": "Rakip İzleme",
+    "subtitle": "Nişinize karşı kıyaslayın.",
+    "name": "Rakip Adı",
+    "url": "Kanal URL'si (isteğe bağlı)",
+    "views": "Video Başına Ortalama Görüntülenme",
+    "add": "Rakip Ekle",
+    "refresh": "Listeyi Yenile",
+    "yourChannel": "Sizin Kanalınız"
+  },
+  "shorts": {
+    "title": "Shorts Viral Motoru",
+    "subtitle": "Dikey içerik için optimize edilmiş hashtag'ler oluşturun.",
+    "placeholder": "Shorts Konusu (örn. Yemek Hatası)",
+    "generate": "Hashtag Üret"
+  },
+  "seo": {
+    "title": "SEO Denetçisi",
+    "subtitle": "Video meta verilerinizi maksimum keşfedilebilirlik için analiz edin.",
+    "videoTitle": "Video Başlığı",
+    "description": "Açıklama",
+    "tags": "Etiketler (virgülle ayrılmış)",
+    "analyze": "SEO Analizi Çalıştır",
+    "overallScore": "Genel SEO Puanı"
+  },
+  "calendar": {
+    "title": "İçerik Takvimi",
+    "subtitle": "İçerik yayınlama tarihlerinizi planlayın ve yönetin.",
+    "addEvent": "Yeni Etkinlik Ekle",
+    "eventTitle": "Etkinlik Başlığı",
+    "date": "Tarih",
+    "time": "Saat",
+    "type": "Tür",
+    "schedule": "Etkinlik Planla",
+    "upcoming": "Yaklaşan Etkinlikler",
+    "types": {
+      "publish": "Video Yayınla",
+      "premiere": "Premiere",
+      "shorts": "Shorts",
+      "live": "Canlı Yayın",
+      "other": "Diğer"
+    }
+  },
+  "ideas": {
+    "title": "Video Fikirleri Panosu",
+    "subtitle": "İçerik fikirlerinizi yakalayın ve organize edin.",
+    "addIdea": "Yeni Fikir Ekle",
+    "ideaTitle": "Fikir Başlığı",
+    "description": "Açıklama",
+    "category": "Kategori",
+    "priority": "Öncelik",
+    "add": "Fikir Ekle",
+    "yourIdeas": "Fikirleriniz",
+    "categories": {
+      "tutorial": "Eğitim",
+      "review": "İnceleme",
+      "entertainment": "Eğlence",
+      "news": "Haber",
+      "general": "Genel"
+    },
+    "priorities": {
+      "high": "Yüksek",
+      "medium": "Orta",
+      "low": "Düşük"
+    }
+  },
+  "analytics": {
+    "title": "Analitik Kontrol Paneli",
+    "subtitle": "Kanal performans metriklerinizi takip edin.",
+    "totalViews": "Toplam Görüntülenme",
+    "watchTime": "İzlenme Süresi (saat)",
+    "subscribers": "Kazanılan Abone",
+    "addData": "Analitik Verisi Ekle",
+    "date": "Tarih",
+    "views": "Görüntülenme",
+    "watchTimeInput": "İzlenme Süresi (saat)",
+    "subs": "Kazanılan Abone",
+    "add": "Veri Ekle",
+    "recent": "Son Analitikler"
+  },
+  "revenue": {
+    "title": "Gelir Hesaplayıcı",
+    "subtitle": "Kazançlarınızı tahmin edin ve takip edin.",
+    "calculate": "Gelir Hesapla",
+    "totalViews": "Toplam Görüntülenme",
+    "rpm": "RPM (1000 görüntülenme başına gelir)",
+    "calculateBtn": "Hesapla",
+    "estimated": "{views} görüntülenme için tahmini gelir ${rpm} RPM ile",
+    "history": "Gelir Geçmişi",
+    "total": "Toplam Gelir"
+  },
+  "keywords": {
+    "title": "Anahtar Kelime Araştırması",
+    "subtitle": "İçeriğiniz için anahtar kelimeler bulun ve analiz edin.",
+    "research": "Anahtar Kelime Araştır",
+    "keyword": "Anahtar Kelime",
+    "saved": "Kaydedilen Anahtar Kelimeler",
+    "volume": "Hacim",
+    "competition": "Rekabet"
+  },
+  "videos": {
+    "title": "Video Kütüphanesi",
+    "subtitle": "Tüm videolarınızı tek bir yerde yönetin.",
+    "addVideo": "Video Ekle",
+    "videoTitle": "Video Başlığı",
+    "status": "Durum",
+    "publishDate": "Yayın Tarihi",
+    "videoUrl": "Video URL'si",
+    "add": "Video Ekle",
+    "yourVideos": "Videolarınız",
+    "statuses": {
+      "draft": "Taslak",
+      "scheduled": "Planlanmış",
+      "published": "Yayınlandı",
+      "private": "Özel"
+    }
+  },
+  "common": {
+    "export": "Veri Dışa Aktar",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "close": "Kapat",
+    "noData": "Veri yok",
+    "language": "Dil"
+  },
+  "messages": {
+    "scriptCopied": "Senaryo panoya kopyalandı ve kaydedildi!",
+    "titleGenerated": "Başlıklar başarıyla oluşturuldu!",
+    "ideaAdded": "Fikir eklendi!",
+    "eventScheduled": "Etkinlik planlandı!",
+    "videoAdded": "Video eklendi!",
+    "dataAdded": "Veri eklendi!",
+    "keywordResearched": "Anahtar kelime araştırıldı!",
+    "competitorAdded": "Rakip eklendi!"
+  }
+}
+

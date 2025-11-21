@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TubeVision Pro v2.0 | Digital Vision</title>
+    <style>
+        /* --- CUSTOM CSS (No Frameworks) --- */
+        :root {
+            --bg-dark: #0f1115;
+            --bg-panel: #181b21;
+            --bg-hover: #22262e;
+            --primary: #dc2626; /* Red */
+            --primary-hover: #b91c1c;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --border: #2d333b;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 280px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2.5rem;
+        }
+
+        .brand-icon {
+            background-color: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .brand-text h1 { font-size: 1.2rem; font-weight: 700; line-height: 1; }
+        .brand-text span { font-size: 0.7rem; color: var(--primary); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+
+        nav button {
+            background: none;
+            border: none;
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            text-align: left;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        nav button:hover { background-color: var(--bg-hover); color: var(--text-main); }
+        nav button.active { background-color: var(--primary); color: white; font-weight: 600; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
+        
+        /* SVG Icons */
+        .icon { width: 20px; height: 20px; fill: currentColor; }
+
+        .user-profile {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+
+        h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); margin-bottom: 2rem; }
+
+        /* Cards & Grid */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        
+        /* Dashboard Stats */
+        .stat-val { font-size: 2.5rem; font-weight: 800; margin: 10px 0; }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
+        .trend { font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; background: rgba(34, 197, 94, 0.1); color: #22c55e; float: right; }
+
+        /* Inputs & Forms */
+        input, textarea, select {
+            width: 100%;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus { outline: 2px solid var(--primary); border-color: transparent; }
+
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
+        /* Script Architect */
+        .script-block { margin-bottom: 1.5rem; }
+        
+        /* Thumbnail Studio */
+        .studio-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        canvas { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border); background: #fff; }
+        .control-group { margin-bottom: 1.5rem; }
+        input[type="range"] { padding: 0; height: 6px; background: var(--border); appearance: none; cursor: pointer; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--primary); border-radius: 50%; }
+        input[type="color"] { padding: 0; height: 40px; cursor: pointer; border: none; }
+
+        /* Competitor Spy */
+        .progress-bar { height: 12px; background: var(--bg-dark); border-radius: 6px; overflow: hidden; margin-top: 6px; }
+        .progress-fill { height: 100%; background: var(--text-muted); transition: width 1s ease; }
+        .progress-fill.me { background: var(--primary); }
+        .progress-fill.avg { background: #3b82f6; }
+
+        /* SEO Results */
+        .result-item { background: var(--bg-dark); padding: 1rem; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
+        .score-high { color: #22c55e; font-weight: bold; }
+        .score-med { color: #eab308; font-weight: bold; }
+
+        /* Responsive */
+        .mobile-toggle { display: none; position: fixed; top: 1rem; right: 1rem; z-index: 100; background: var(--bg-panel); padding: 10px; border-radius: 8px; border: 1px solid var(--border); color: white; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            aside { position: fixed; left: -280px; height: 100%; z-index: 90; }
+            aside.open { left: 0; box-shadow: 5px 0 20px rgba(0,0,0,0.5); }
+            main { padding: 5rem 1rem 2rem 1rem; }
+            .mobile-toggle { display: block; }
+            .studio-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+        <div class="brand">
+            <div class="brand-icon">TV</div>
+            <div class="brand-text">
+                <h1>TubeVision</h1>
+                <span>Pro v2.0</span>
+            </div>
+        </div>
+
+        <nav>
+            <button onclick="showSection('dashboard')" class="active" id="nav-dashboard">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                <span data-i18n="nav.dashboard">Dashboard</span>
+            </button>
+            <button onclick="showSection('titles')" id="nav-titles">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg>
+                <span data-i18n="nav.titles">Title Generator</span>
+            </button>
+            <button onclick="showSection('script')" id="nav-script">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                <span data-i18n="nav.script">Script Architect</span>
+            </button>
+            <button onclick="showSection('thumbnail')" id="nav-thumbnail">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                <span data-i18n="nav.thumbnail">Thumbnail Studio</span>
+            </button>
+            <button onclick="showSection('competitor')" id="nav-competitor">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                <span data-i18n="nav.competitor">Competitor Spy</span>
+            </button>
+            <button onclick="showSection('shorts')" id="nav-shorts">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                <span data-i18n="nav.shorts">Shorts Engine</span>
+            </button>
+            <button onclick="showSection('seo')" id="nav-seo">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <span data-i18n="nav.seo">SEO Auditor</span>
+            </button>
+            <button onclick="showSection('calendar')" id="nav-calendar">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                <span data-i18n="nav.calendar">Content Calendar</span>
+            </button>
+            <button onclick="showSection('ideas')" id="nav-ideas">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                <span data-i18n="nav.ideas">Video Ideas</span>
+            </button>
+            <button onclick="showSection('analytics')" id="nav-analytics">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                <span data-i18n="nav.analytics">Analytics</span>
+            </button>
+            <button onclick="showSection('revenue')" id="nav-revenue">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                <span data-i18n="nav.revenue">Revenue</span>
+            </button>
+            <button onclick="showSection('keywords')" id="nav-keywords">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/></svg>
+                <span data-i18n="nav.keywords">Keywords</span>
+            </button>
+            <button onclick="showSection('videos')" id="nav-videos">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM8 15l2.5-3.21L13 15l2.5-3.22L19 15V5H5v10z"/></svg>
+                <span data-i18n="nav.videos">Video Library</span>
+            </button>
+            <button onclick="showSection('settings')" id="nav-settings">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                <span>Settings</span>
+            </button>
+        </nav>
+
+        <div class="user-profile">
+            <div class="avatar" id="userAvatar">U</div>
+            <div style="font-size: 0.85rem;">
+                <div style="font-weight: bold; color: white;" id="userName">Loading...</div>
+                <div style="color: var(--text-muted);" id="userEmail">Loading...</div>
+            </div>
+        </div>
+        <div style="margin-top: 0.5rem;">
+            <button onclick="showUserSettings()" style="width: 100%; padding: 8px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); cursor: pointer; font-size: 0.85rem;">
+                ⚙️ Settings
+            </button>
+            <button onclick="logout()" style="width: 100%; padding: 8px; background: rgba(220, 38, 38, 0.1); border: 1px solid #dc2626; border-radius: 6px; color: #dc2626; cursor: pointer; font-size: 0.85rem; margin-top: 0.5rem;">
+                🚪 Logout
+            </button>
+        </div>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <div style="margin-bottom: 0.5rem;">
+                <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">Language / Dil</label>
+                <select id="languageSelect" onchange="changeLanguage(this.value)" style="width: 100%; padding: 8px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 0.85rem; cursor: pointer;">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="tr">🇹🇷 Türkçe</option>
+                </select>
+            </div>
+            <button onclick="exportData()" style="width: 100%; padding: 8px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); cursor: pointer; font-size: 0.85rem;">
+                📥 <span data-i18n="common.export">Export Data</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            
+            <!-- DASHBOARD -->
+            <div id="dashboard" class="section active">
+                <h2>Overview</h2>
+                <p class="subtitle">Welcome back, Mehmet. Here are your channel metrics.</p>
+
+                <div class="grid-3">
+                    <div class="card">
+                        <span class="trend">+12.5%</span>
+                        <div class="stat-label">Total Views</div>
+                        <div class="stat-val">1.2M</div>
+                        <div class="stat-label">Last 28 Days</div>
+                    </div>
+                    <div class="card">
+                        <span class="trend">+2.1%</span>
+                        <div class="stat-label">Click-Through Rate</div>
+                        <div class="stat-val">8.4%</div>
+                        <div class="stat-label">Last 28 Days</div>
+                    </div>
+                    <div class="card">
+                        <span class="trend">+8.3%</span>
+                        <div class="stat-label">Est. Revenue</div>
+                        <div class="stat-val">$4,250</div>
+                        <div class="stat-label">Last 28 Days</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Recent Activity Log</h3>
+                    <div class="result-item" style="border: none; padding: 0.5rem 0;">
+                        <span><span style="color: var(--primary);">●</span> Thumbnail Generated: "React Killer?"</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">2 mins ago</span>
+                    </div>
+                    <div class="result-item" style="border: none; padding: 0.5rem 0;">
+                        <span><span style="color: var(--primary);">●</span> Script Exported: "iPhone 16 Review"</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">1 hour ago</span>
+                    </div>
+                    <div class="result-item" style="border: none; padding: 0.5rem 0;">
+                        <span><span style="color: var(--primary);">●</span> SEO Audit Score: 98/100</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">3 hours ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TITLE GENERATOR -->
+            <div id="titles" class="section">
+                <h2 data-i18n="titles.title">Viral Title Generator</h2>
+                <p class="subtitle" data-i18n="titles.subtitle">Generate high-CTR titles using AI logic.</p>
+
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-dark); border-radius: 8px;">
+                        <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="useAI" checked style="width: auto; margin: 0;">
+                            <span style="font-size: 0.9rem;">🤖 Use AI (OpenAI)</span>
+                        </label>
+                        <span id="aiStatus" style="font-size: 0.8rem; color: var(--text-muted);"></span>
+                    </div>
+                    <input type="text" id="titleInput" data-i18n="titles.placeholder" placeholder="Enter video topic (e.g. 'Coding Interview')">
+                    <button class="btn-primary" onclick="generateTitles()"><span data-i18n="titles.generate">Generate Titles</span></button>
+                    <div id="titleResults" style="margin-top: 1.5rem;"></div>
+                </div>
+            </div>
+
+            <!-- SCRIPT ARCHITECT -->
+            <div id="script" class="section">
+                <h2 data-i18n="script.title">Script Architect</h2>
+                <p class="subtitle" data-i18n="script.subtitle">Structure your videos for maximum retention.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">🤖 AI Script Generator</h3>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem;">
+                        <div class="script-block">
+                            <label>Video Topic</label>
+                            <input type="text" id="aiScriptTopic" placeholder="Enter topic for AI script">
+                        </div>
+                        <div class="script-block">
+                            <label>Video Type</label>
+                            <select id="aiScriptType">
+                                <option value="tutorial">Tutorial</option>
+                                <option value="review">Review</option>
+                                <option value="list">List</option>
+                                <option value="challenge">Challenge</option>
+                            </select>
+                        </div>
+                        <div class="script-block">
+                            <label>Duration</label>
+                            <select id="aiScriptDuration">
+                                <option value="5 minutes">5 min</option>
+                                <option value="10 minutes" selected>10 min</option>
+                                <option value="15 minutes">15 min</option>
+                                <option value="20 minutes">20 min</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="generateAIScript()" style="margin-top: 1rem;">Generate AI Script</button>
+                </div>
+
+                <div class="script-block">
+                    <label data-i18n="script.hook">The Hook (0:00 - 0:30)</label>
+                    <textarea id="script-hook" rows="3" data-i18n="script.hookPlaceholder" placeholder="Grab attention instantly. Statement, Question, or Teaser."></textarea>
+                </div>
+                <div class="script-block">
+                    <label data-i18n="script.intro">The Setup (0:30 - 1:00)</label>
+                    <textarea id="script-intro" rows="3" data-i18n="script.introPlaceholder" placeholder="Who are you? What will they learn? Show proof."></textarea>
+                </div>
+                <div class="script-block">
+                    <label data-i18n="script.content">The Content (The Meat)</label>
+                    <textarea id="script-content" rows="8" data-i18n="script.contentPlaceholder" placeholder="Step 1, Step 2, Step 3. Deliver on the promise."></textarea>
+                </div>
+                <div class="script-block">
+                    <label data-i18n="script.cta">Call to Action (CTA)</label>
+                    <textarea id="script-cta" rows="2" data-i18n="script.ctaPlaceholder" placeholder="Subscribe, check the link in bio, watch next video."></textarea>
+                </div>
+                <button class="btn-primary" onclick="copyScript()"><span data-i18n="script.copy">Copy Full Script to Clipboard</span></button>
+            </div>
+
+            <!-- THUMBNAIL STUDIO -->
+            <div id="thumbnail" class="section">
+                <h2>Thumbnail Studio</h2>
+                <p class="subtitle">Create pro-level thumbnails with HTML5 Canvas.</p>
+
+                <div class="studio-layout">
+                    <div>
+                        <canvas id="thumbCanvas" width="1280" height="720"></canvas>
+                    </div>
+                    <div class="card" style="height: fit-content;">
+                        <div class="control-group">
+                            <label>Headline Text</label>
+                            <textarea id="thumbText" rows="2" oninput="drawCanvas()">EPIC VIDEO&#10;TITLE HERE</textarea>
+                        </div>
+                        <div class="control-group">
+                            <label>Background Color</label>
+                            <input type="color" id="bgColor" value="#dc2626" oninput="drawCanvas()">
+                        </div>
+                        <div class="control-group">
+                            <label>Font Size</label>
+                            <input type="range" id="fontSize" min="40" max="200" value="100" oninput="drawCanvas()">
+                        </div>
+                        <div class="control-group">
+                            <label>Overlay Opacity</label>
+                            <input type="range" id="overlayOpacity" min="0" max="90" value="40" oninput="drawCanvas()">
+                        </div>
+                        <div class="control-group">
+                            <label>Upload Background Image</label>
+                            <input type="file" id="imgUpload" accept="image/*" onchange="handleImage(this)">
+                        </div>
+                        <button class="btn-primary" onclick="downloadThumb()">Download PNG</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPETITOR SPY -->
+            <div id="competitor" class="section">
+                <h2>Competitor Spy</h2>
+                <p class="subtitle">Benchmark against your niche.</p>
+
+                <div class="card">
+                    <div class="script-block">
+                        <label>Competitor Name</label>
+                        <input type="text" id="competitorName" placeholder="Enter competitor name">
+                    </div>
+                    <div class="script-block">
+                        <label>Channel URL (optional)</label>
+                        <input type="text" id="competitorUrl" placeholder="Enter competitor channel URL">
+                    </div>
+                    <div class="script-block">
+                        <label>Average Views per Video</label>
+                        <input type="number" id="competitorViews" placeholder="Enter average views">
+                    </div>
+                    <button class="btn-primary" onclick="addCompetitor()" style="margin-bottom: 1rem;">Add Competitor</button>
+                    <button class="btn-primary" onclick="loadCompetitors()" style="margin-bottom: 2rem; background: var(--bg-hover);">Refresh List</button>
+
+                    <h3 style="margin-bottom: 1rem;">Average Views per Video</h3>
+                    <div id="competitorList"></div>
+                </div>
+            </div>
+
+            <!-- SHORTS ENGINE -->
+            <div id="shorts" class="section">
+                <h2>Shorts Viral Engine</h2>
+                <p class="subtitle">Generate optimized hashtags for vertical content.</p>
+
+                <div class="card">
+                    <input type="text" id="shortsTopic" placeholder="Shorts Topic (e.g. Cooking Fail)">
+                    <button class="btn-primary" onclick="generateShortsTags()">Generate Hashtags</button>
+                    
+                    <div id="shortsResults" style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-dark); border-radius: 8px; border: 1px solid var(--border); display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO AUDITOR -->
+            <div id="seo" class="section">
+                <h2>SEO Auditor</h2>
+                <p class="subtitle">Analyze your video metadata for maximum discoverability.</p>
+
+                <div class="card">
+                    <div class="script-block">
+                        <label>Video Title</label>
+                        <input type="text" id="seoTitle" placeholder="Enter your video title" oninput="analyzeSEO()">
+                    </div>
+                    <div class="script-block">
+                        <label>Description</label>
+                        <textarea id="seoDescription" rows="4" placeholder="Enter your video description" oninput="analyzeSEO()"></textarea>
+                    </div>
+                    <div class="script-block">
+                        <label>Tags (comma-separated)</label>
+                        <input type="text" id="seoTags" placeholder="tag1, tag2, tag3" oninput="analyzeSEO()">
+                    </div>
+                    <button class="btn-primary" onclick="analyzeSEO()">Run SEO Analysis</button>
+                    
+                    <div id="seoResults" style="margin-top: 2rem;"></div>
+                </div>
+            </div>
+
+            <!-- CONTENT CALENDAR -->
+            <div id="calendar" class="section">
+                <h2>Content Calendar</h2>
+                <p class="subtitle">Schedule and manage your content publishing.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Add New Event</h3>
+                    <div class="script-block">
+                        <label>Event Title</label>
+                        <input type="text" id="calendarTitle" placeholder="Video title or event name">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="script-block">
+                            <label>Date</label>
+                            <input type="date" id="calendarDate">
+                        </div>
+                        <div class="script-block">
+                            <label>Time</label>
+                            <input type="time" id="calendarTime" value="12:00">
+                        </div>
+                    </div>
+                    <div class="script-block">
+                        <label>Type</label>
+                        <select id="calendarType">
+                            <option value="publish">Publish Video</option>
+                            <option value="premiere">Premiere</option>
+                            <option value="shorts">Shorts</option>
+                            <option value="live">Live Stream</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="addCalendarEvent()">Schedule Event</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Upcoming Events</h3>
+                    <div id="calendarList"></div>
+                </div>
+            </div>
+
+            <!-- VIDEO IDEAS -->
+            <div id="ideas" class="section">
+                <h2>Video Ideas Board</h2>
+                <p class="subtitle">Capture and organize your content ideas.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Add New Idea</h3>
+                    <div class="script-block">
+                        <label>Idea Title</label>
+                        <input type="text" id="ideaTitle" placeholder="Enter video idea">
+                    </div>
+                    <div class="script-block">
+                        <label>Description</label>
+                        <textarea id="ideaDescription" rows="3" placeholder="Add details about this idea"></textarea>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="script-block">
+                            <label>Category</label>
+                            <select id="ideaCategory">
+                                <option value="tutorial">Tutorial</option>
+                                <option value="review">Review</option>
+                                <option value="entertainment">Entertainment</option>
+                                <option value="news">News</option>
+                                <option value="general">General</option>
+                            </select>
+                        </div>
+                        <div class="script-block">
+                            <label>Priority</label>
+                            <select id="ideaPriority">
+                                <option value="high">High</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="addVideoIdea()">Add Idea</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Your Ideas</h3>
+                    <div id="ideasList"></div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS -->
+            <div id="analytics" class="section">
+                <h2>Analytics Dashboard</h2>
+                <p class="subtitle">Track your channel performance metrics.</p>
+
+                <div class="grid-3" style="margin-bottom: 2rem;">
+                    <div class="card">
+                        <div class="stat-label">Total Views</div>
+                        <div class="stat-val" id="analyticsViews">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="stat-label">Watch Time (hours)</div>
+                        <div class="stat-val" id="analyticsWatchTime">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="stat-label">Subscribers Gained</div>
+                        <div class="stat-val" id="analyticsSubs">0</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Add Analytics Data</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="script-block">
+                            <label>Date</label>
+                            <input type="date" id="analyticsDate">
+                        </div>
+                        <div class="script-block">
+                            <label>Views</label>
+                            <input type="number" id="analyticsViewsInput" placeholder="0">
+                        </div>
+                        <div class="script-block">
+                            <label>Watch Time (hours)</label>
+                            <input type="number" id="analyticsWatchTimeInput" step="0.1" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="script-block">
+                        <label>Subscribers Gained</label>
+                        <input type="number" id="analyticsSubsInput" placeholder="0">
+                    </div>
+                    <button class="btn-primary" onclick="addAnalytics()">Add Data</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Recent Analytics</h3>
+                    <div id="analyticsList"></div>
+                </div>
+            </div>
+
+            <!-- REVENUE -->
+            <div id="revenue" class="section">
+                <h2>Revenue Calculator</h2>
+                <p class="subtitle">Estimate and track your earnings.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Calculate Revenue</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="script-block">
+                            <label>Total Views</label>
+                            <input type="number" id="revenueViews" placeholder="10000">
+                        </div>
+                        <div class="script-block">
+                            <label>RPM (Revenue per 1000 views)</label>
+                            <input type="number" id="revenueRPM" value="2.0" step="0.1" placeholder="2.0">
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="calculateRevenue()">Calculate</button>
+                    <div id="revenueResult" style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-dark); border-radius: 8px; display: none;"></div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Revenue History</h3>
+                    <div id="revenueList"></div>
+                </div>
+            </div>
+
+            <!-- KEYWORDS -->
+            <div id="keywords" class="section">
+                <h2>Keyword Research</h2>
+                <p class="subtitle">Find and analyze keywords for your content.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Research Keyword</h3>
+                    <div class="script-block">
+                        <label>Keyword</label>
+                        <input type="text" id="keywordInput" placeholder="Enter keyword to research">
+                    </div>
+                    <button class="btn-primary" onclick="researchKeyword()">Research</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Saved Keywords</h3>
+                    <div id="keywordsList"></div>
+                </div>
+            </div>
+
+            <!-- VIDEO LIBRARY -->
+            <div id="videos" class="section">
+                <h2>Video Library</h2>
+                <p class="subtitle">Manage all your videos in one place.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Add Video</h3>
+                    <div class="script-block">
+                        <label>Video Title</label>
+                        <input type="text" id="videoTitle" placeholder="Enter video title">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="script-block">
+                            <label>Status</label>
+                            <select id="videoStatus">
+                                <option value="draft">Draft</option>
+                                <option value="scheduled">Scheduled</option>
+                                <option value="published">Published</option>
+                                <option value="private">Private</option>
+                            </select>
+                        </div>
+                        <div class="script-block">
+                            <label>Publish Date</label>
+                            <input type="date" id="videoPublishDate">
+                        </div>
+                    </div>
+                    <div class="script-block">
+                        <label>Video URL</label>
+                        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
+                    </div>
+                    <button class="btn-primary" onclick="addVideo()">Add Video</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Your Videos</h3>
+                    <div id="videosList"></div>
+                </div>
+            </div>
+
+            <!-- USER SETTINGS -->
+            <div id="settings" class="section">
+                <h2>User Settings</h2>
+                <p class="subtitle">Manage your account and preferences.</p>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Profile Information</h3>
+                    <div class="script-block">
+                        <label>Name</label>
+                        <input type="text" id="settingsName" placeholder="Your Name">
+                    </div>
+                    <div class="script-block">
+                        <label>Email</label>
+                        <input type="email" id="settingsEmail" placeholder="your@email.com">
+                    </div>
+                    <button class="btn-primary" onclick="updateProfile()">Update Profile</button>
+                </div>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Change Password</h3>
+                    <div class="script-block">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" placeholder="Current password">
+                    </div>
+                    <div class="script-block">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword" placeholder="New password (min 6 characters)" minlength="6">
+                    </div>
+                    <div class="script-block">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                    </div>
+                    <button class="btn-primary" onclick="changePassword()">Change Password</button>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">User Management</h3>
+                    <button class="btn-primary" onclick="loadUsers()" style="margin-bottom: 1rem; background: var(--bg-hover);">Load All Users</button>
+                    <div id="usersList"></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        /* --- API CONFIGURATION --- */
+        const API_BASE = window.location.origin;
+        // Use same port as HTTP server for WebSocket
+        const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const WS_URL = `${WS_PROTOCOL}//${window.location.host}`;
+
+        /* --- INTERNATIONALIZATION (i18n) --- */
+        let currentLanguage = localStorage.getItem('tubevision_lang') || 'en';
+        let translations = {};
+
+        // Load translations
+        async function loadTranslations(lang) {
+            try {
+                const response = await fetch(`${API_BASE}/api/i18n/${lang}`);
+                const result = await response.json();
+                if (result.success) {
+                    translations = result.translations;
+                    currentLanguage = lang;
+                    localStorage.setItem('tubevision_lang', lang);
+                    applyTranslations();
+                }
+            } catch (error) {
+                console.error('Error loading translations:', error);
+            }
+        }
+
+        // Apply translations to page
+        function applyTranslations() {
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const value = getTranslation(key);
+                if (value) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                }
+            });
+
+            // Update navigation buttons
+            Object.keys(translations.nav || {}).forEach(key => {
+                const btn = document.getElementById(`nav-${key}`);
+                if (btn) {
+                    const span = btn.querySelector('span[data-i18n]');
+                    if (span) {
+                        span.textContent = translations.nav[key];
+                    }
+                }
+            });
+
+            // Update section titles
+            updateSectionTitles();
+        }
+
+        // Get translation by key (supports nested keys like "nav.dashboard")
+        function getTranslation(key, params = {}) {
+            const keys = key.split('.');
+            let value = translations;
+            
+            for (const k of keys) {
+                if (value && typeof value === 'object') {
+                    value = value[k];
+                } else {
+                    return key; // Return key if translation not found
+                }
+            }
+
+            // Replace parameters
+            if (typeof value === 'string' && params) {
+                Object.keys(params).forEach(param => {
+                    value = value.replace(`{${param}}`, params[param]);
+                });
+            }
+
+            return value || key;
+        }
+
+        // Translate function (shortcut)
+        function t(key, params) {
+            return getTranslation(key, params);
+        }
+
+        // Change language
+        async function changeLanguage(lang) {
+            await loadTranslations(lang);
+            document.getElementById('languageSelect').value = lang;
+        }
+
+        // Update section titles and content
+        function updateSectionTitles() {
+            // Dashboard
+            const dashboardTitle = document.querySelector('#dashboard h2');
+            if (dashboardTitle) dashboardTitle.textContent = t('dashboard.title');
+            const dashboardSubtitle = document.querySelector('#dashboard .subtitle');
+            if (dashboardSubtitle) dashboardSubtitle.textContent = t('dashboard.subtitle', { name: 'Mehmet' });
+
+            // Titles
+            const titlesTitle = document.querySelector('#titles h2');
+            if (titlesTitle) titlesTitle.textContent = t('titles.title');
+            const titlesSubtitle = document.querySelector('#titles .subtitle');
+            if (titlesSubtitle) titlesSubtitle.textContent = t('titles.subtitle');
+
+            // Script
+            const scriptTitle = document.querySelector('#script h2');
+            if (scriptTitle) scriptTitle.textContent = t('script.title');
+            // ... add more as needed
+        }
+
+        /* --- WEBSOCKET CONNECTION FOR REAL-TIME UPDATES --- */
+        let ws = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket(WS_URL);
+                
+                ws.onopen = () => {
+                    console.log('✅ WebSocket connected - Real-time updates enabled');
+                    reconnectAttempts = 0;
+                };
+
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    handleRealtimeUpdate(data);
+                };
+
+                ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                };
+
+                ws.onclose = () => {
+                    console.log('WebSocket disconnected');
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        reconnectAttempts++;
+                        setTimeout(connectWebSocket, 3000 * reconnectAttempts);
+                    }
+                };
+            } catch (error) {
+                console.error('WebSocket connection failed:', error);
+            }
+        }
+
+        function handleRealtimeUpdate(data) {
+            switch(data.type) {
+                case 'dashboard_update':
+                    updateDashboardStats(data.data);
+                    break;
+                case 'activity':
+                    addActivityToLog(data.data);
+                    break;
+                case 'titles_generated':
+                    console.log('Titles generated:', data.data);
+                    break;
+                case 'script_saved':
+                    console.log('Script saved:', data.data);
+                    break;
+                case 'thumbnail_saved':
+                    console.log('Thumbnail saved:', data.data);
+                    break;
+                case 'seo_audit':
+                    console.log('SEO audit completed:', data.data);
+                    break;
+            }
+        }
+
+        /* --- AUTHENTICATION --- */
+        let currentUser = null;
+        let authToken = null;
+
+        // Check authentication
+        function checkAuth() {
+            authToken = localStorage.getItem('tubevision_token');
+            const userStr = localStorage.getItem('tubevision_user');
+            
+            if (authToken && userStr) {
+                currentUser = JSON.parse(userStr);
+                return true;
+            }
+            return false;
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('tubevision_token');
+            localStorage.removeItem('tubevision_user');
+            window.location.href = '/login.html';
+        }
+
+        // Redirect to login if not authenticated
+        function requireAuth() {
+            if (!checkAuth()) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            return true;
+        }
+
+        /* --- API HELPER FUNCTIONS --- */
+        async function apiCall(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method,
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                // Add auth token if available
+                if (authToken) {
+                    options.headers['Authorization'] = `Bearer ${authToken}`;
+                }
+
+                if (body) options.body = JSON.stringify(body);
+                
+                const response = await fetch(`${API_BASE}/api${endpoint}`, options);
+                
+                // Handle 401 (unauthorized) - redirect to login
+                if (response.status === 401) {
+                    logout();
+                    return { success: false, error: 'Session expired. Please login again.' };
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        /* --- NAVIGATION LOGIC --- */
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            const navBtn = document.getElementById('nav-' + id);
+            if (navBtn) navBtn.classList.add('active');
+            if(window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+            
+            // Load section data
+            if (id === 'dashboard') loadDashboard();
+            else if (id === 'calendar') loadCalendar();
+            else if (id === 'ideas') loadIdeas();
+            else if (id === 'analytics') loadAnalytics();
+            else if (id === 'revenue') loadRevenue();
+            else if (id === 'keywords') loadKeywords();
+            else if (id === 'videos') loadVideos();
+            else if (id === 'competitor') loadCompetitors();
+            else if (id === 'settings') {
+                loadUserProfile();
+                loadUsers();
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        /* --- DASHBOARD --- */
+        async function loadDashboard() {
+            const result = await apiCall('/dashboard/stats');
+            if (result.success) {
+                updateDashboardStats(result.stats);
+                updateActivityLog(result.activities || []);
+            }
+        }
+
+        function updateDashboardStats(stats) {
+            const viewsEl = document.querySelector('#dashboard .stat-val');
+            if (viewsEl && stats.total_views) {
+                viewsEl.textContent = formatNumber(stats.total_views);
+            }
+            if (stats.ctr) {
+                const ctrEl = document.querySelectorAll('#dashboard .stat-val')[1];
+                if (ctrEl) ctrEl.textContent = stats.ctr.toFixed(1) + '%';
+            }
+            if (stats.revenue) {
+                const revEl = document.querySelectorAll('#dashboard .stat-val')[2];
+                if (revEl) revEl.textContent = '$' + formatNumber(stats.revenue);
+            }
+        }
+
+        function updateActivityLog(activities) {
+            const logContainer = document.querySelector('#dashboard .card:last-child');
+            if (!logContainer || !activities.length) return;
+            
+            let html = '<h3 style="margin-bottom: 1rem;">Recent Activity Log</h3>';
+            activities.slice(0, 10).forEach(activity => {
+                const timeAgo = getTimeAgo(activity.timestamp);
+                html += `
+                    <div class="result-item" style="border: none; padding: 0.5rem 0;">
+                        <span><span style="color: var(--primary);">●</span> ${activity.title}</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">${timeAgo}</span>
+                    </div>
+                `;
+            });
+            logContainer.innerHTML = html;
+        }
+
+        function addActivityToLog(activity) {
+            const logContainer = document.querySelector('#dashboard .card:last-child');
+            if (logContainer) {
+                const timeAgo = getTimeAgo(activity.timestamp);
+                const html = `
+                    <div class="result-item" style="border: none; padding: 0.5rem 0;">
+                        <span><span style="color: var(--primary);">●</span> ${activity.title}</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">${timeAgo}</span>
+                    </div>
+                `;
+                logContainer.insertAdjacentHTML('afterbegin', html);
+            }
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+            return num.toString();
+        }
+
+        function getTimeAgo(timestamp) {
+            const now = new Date();
+            const then = new Date(timestamp);
+            const diff = Math.floor((now - then) / 1000);
+            if (diff < 60) return diff + ' sec ago';
+            if (diff < 3600) return Math.floor(diff / 60) + ' mins ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + ' hours ago';
+            return Math.floor(diff / 86400) + ' days ago';
+        }
+
+        /* --- AI STATUS CHECK --- */
+        async function checkAIStatus() {
+            const result = await apiCall('/ai/status');
+            const statusEl = document.getElementById('aiStatus');
+            if (statusEl && result.success) {
+                if (result.enabled) {
+                    statusEl.textContent = '✅ AI Enabled';
+                    statusEl.style.color = '#22c55e';
+                } else {
+                    statusEl.textContent = '⚠️ Add OPENAI_API_KEY to .env';
+                    statusEl.style.color = '#eab308';
+                }
+            }
+        }
+
+        /* --- TITLE GENERATOR --- */
+        async function generateTitles() {
+            const topic = document.getElementById('titleInput').value;
+            const useAI = document.getElementById('useAI')?.checked ?? true;
+            
+            if(!topic) {
+                alert(t('common.error') + ': ' + t('titles.placeholder'));
+                return;
+            }
+            
+            const container = document.getElementById('titleResults');
+            container.innerHTML = '<p style="color: var(--text-muted);">Generating titles' + (useAI ? ' with AI' : '') + '...</p>';
+            
+            const result = await apiCall('/titles/generate', 'POST', { topic, useAI });
+            if (result.success && result.titles) {
+                container.innerHTML = '';
+                if (result.aiUsed) {
+                    const aiBadge = document.createElement('div');
+                    aiBadge.style.cssText = 'margin-bottom: 1rem; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 6px; color: #22c55e; font-size: 0.85rem;';
+                    aiBadge.textContent = '🤖 Generated with AI';
+                    container.appendChild(aiBadge);
+                }
+                result.titles.forEach(title => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerHTML = `
+                        <span>${title.title}</span>
+                        <span class="${title.score > 90 ? 'score-high' : 'score-med'}">Score: ${title.score}</span>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                container.innerHTML = '<p style="color: #dc2626;">Error generating titles</p>';
+            }
+        }
+
+        /* --- AI SCRIPT GENERATOR --- */
+        async function generateAIScript() {
+            const topic = document.getElementById('aiScriptTopic').value;
+            const videoType = document.getElementById('aiScriptType').value;
+            const duration = document.getElementById('aiScriptDuration').value;
+            
+            if (!topic) {
+                alert('Please enter a topic');
+                return;
+            }
+            
+            const result = await apiCall('/ai/script', 'POST', { topic, videoType, duration });
+            if (result.success && result.script) {
+                // Parse and fill script sections
+                const script = result.script;
+                // Try to extract sections (basic parsing)
+                const hookMatch = script.match(/hook|opening|attention/i);
+                const introMatch = script.match(/intro|introduction|setup/i);
+                const contentMatch = script.match(/content|main|body/i);
+                const ctaMatch = script.match(/cta|call to action|subscribe/i);
+                
+                // For now, just fill content with the full script
+                document.getElementById('script-content').value = script;
+                alert('AI Script generated! Check the Content section.');
+            } else {
+                alert('Error: ' + (result.error || 'Failed to generate script. Make sure OPENAI_API_KEY is set.'));
+            }
+        }
+
+        /* --- SCRIPT ARCHITECT --- */
+        async function copyScript() {
+            const hook = document.getElementById('script-hook').value;
+            const intro = document.getElementById('script-intro').value;
+            const content = document.getElementById('script-content').value;
+            const cta = document.getElementById('script-cta').value;
+
+            const fullText = `[HOOK]\n${hook}\n\n[INTRO]\n${intro}\n\n[CONTENT]\n${content}\n\n[CTA]\n${cta}`;
+            
+            // Save script to backend
+            await apiCall('/scripts/save', 'POST', {
+                hook, intro, content, cta, title: 'Script ' + new Date().toLocaleDateString()
+            });
+            
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert(t('messages.scriptCopied'));
+            });
+        }
+
+        // Thumbnail Studio
+        let uploadedImg = null;
+
+        function drawCanvas() {
+            const canvas = document.getElementById('thumbCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const text = document.getElementById('thumbText').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const fontSize = document.getElementById('fontSize').value;
+            const opacity = document.getElementById('overlayOpacity').value;
+
+            // 1. Background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Image
+            if (uploadedImg) {
+                const ratio = Math.max(canvas.width / uploadedImg.width, canvas.height / uploadedImg.height);
+                const centerShift_x = (canvas.width - uploadedImg.width * ratio) / 2;
+                const centerShift_y = (canvas.height - uploadedImg.height * ratio) / 2;  
+                ctx.drawImage(uploadedImg, 0, 0, uploadedImg.width, uploadedImg.height, centerShift_x, centerShift_y, uploadedImg.width * ratio, uploadedImg.height * ratio);
+            }
+
+            // 3. Overlay
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, `rgba(0,0,0,${opacity / 100 + 0.2})`);
+            gradient.addColorStop(1, `rgba(0,0,0,${opacity / 100})`);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 4. Text
+            ctx.fillStyle = 'white';
+            ctx.font = `900 ${fontSize}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = "rgba(0,0,0,0.9)";
+            ctx.shadowBlur = 20;
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = 'black';
+
+            const lines = text.split('\n');
+            const lineHeight = fontSize * 1.1;
+            const startY = 360 - ((lines.length - 1) * lineHeight) / 2;
+
+            lines.forEach((line, i) => {
+                const y = startY + (i * lineHeight);
+                ctx.strokeText(line.toUpperCase(), 640, y);
+                ctx.fillText(line.toUpperCase(), 640, y);
+            });
+        }
+
+        function handleImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImg = new Image();
+                    uploadedImg.onload = drawCanvas;
+                    uploadedImg.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function downloadThumb() {
+            const link = document.createElement('a');
+            link.download = 'tubevision_thumb.png';
+            link.href = document.getElementById('thumbCanvas').toDataURL();
+            link.click();
+        }
+
+        /* --- SHORTS ENGINE --- */
+        async function generateShortsTags() {
+            const topic = document.getElementById('shortsTopic').value;
+            if(!topic) {
+                alert('Please enter a topic');
+                return;
+            }
+
+            const resultDiv = document.getElementById('shortsResults');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p style="color: var(--text-muted);">Generating hashtags...</p>';
+            
+            const result = await apiCall('/shorts/generate', 'POST', { topic });
+            if (result.success && result.tags) {
+                resultDiv.innerHTML = `<p style="color:#3b82f6; font-weight:bold;">${result.tagString}</p>`;
+            } else {
+                resultDiv.innerHTML = '<p style="color: #dc2626;">Error generating hashtags</p>';
+            }
+        }
+
+        /* --- SEO AUDITOR --- */
+        async function analyzeSEO() {
+            const title = document.getElementById('seoTitle').value || '';
+            const description = document.getElementById('seoDescription').value || '';
+            const tags = document.getElementById('seoTags').value || '';
+            
+            const resultDiv = document.getElementById('seoResults');
+            resultDiv.innerHTML = '<p style="color: var(--text-muted);">Analyzing...</p>';
+            
+            const result = await apiCall('/seo/audit', 'POST', { title, description, tags });
+            if (result.success && result.results) {
+                const finalScore = result.score;
+                let html = `
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; font-weight: 800; color: ${finalScore >= 80 ? '#22c55e' : finalScore >= 60 ? '#eab308' : '#dc2626'};">
+                            ${finalScore}/100
+                        </div>
+                        <div style="color: var(--text-muted); margin-top: 0.5rem;">Overall SEO Score</div>
+                    </div>
+                `;
+
+                result.results.forEach(r => {
+                    const statusColor = r.status === 'high' ? '#22c55e' : r.status === 'med' ? '#eab308' : '#dc2626';
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${r.name}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">${r.message}</div>
+                            </div>
+                            <div style="color: ${statusColor}; font-weight: bold; font-size: 1.1rem;">${r.score}/${r.maxScore}</div>
+                        </div>
+                    `;
+                });
+
+                resultDiv.innerHTML = html;
+            } else {
+                resultDiv.innerHTML = '<p style="color: #dc2626;">Error analyzing SEO</p>';
+            }
+        }
+
+        /* --- COMPETITOR SPY --- */
+        async function addCompetitor() {
+            const name = document.getElementById('competitorName').value;
+            const url = document.getElementById('competitorUrl').value;
+            const avgViews = parseInt(document.getElementById('competitorViews').value) || 0;
+            
+            if (!name) {
+                alert('Please enter competitor name');
+                return;
+            }
+            
+            const result = await apiCall('/competitors/add', 'POST', { name, url, avg_views: avgViews });
+            if (result.success) {
+                alert('Competitor added!');
+                document.getElementById('competitorName').value = '';
+                document.getElementById('competitorUrl').value = '';
+                document.getElementById('competitorViews').value = '';
+                loadCompetitors();
+            } else {
+                alert('Error adding competitor');
+            }
+        }
+
+        async function loadCompetitors() {
+            const result = await apiCall('/competitors');
+            const listDiv = document.getElementById('competitorList');
+            
+            if (result.success && result.competitors && result.competitors.length > 0) {
+                const maxViews = Math.max(...result.competitors.map(c => c.avg_views || 0), 100000);
+                let html = '';
+                
+                result.competitors.forEach(comp => {
+                    const width = maxViews > 0 ? (comp.avg_views / maxViews * 100) : 0;
+                    html += `
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                                <span>${comp.name}</span>
+                                <span>${formatNumber(comp.avg_views || 0)}</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: ${width}%"></div></div>
+                        </div>
+                    `;
+                });
+                
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No competitors added yet. Add one above!</p>';
+            }
+        }
+
+        /* --- CONTENT CALENDAR --- */
+        async function addCalendarEvent() {
+            const title = document.getElementById('calendarTitle').value;
+            const date = document.getElementById('calendarDate').value;
+            const time = document.getElementById('calendarTime').value;
+            const type = document.getElementById('calendarType').value;
+            
+            if (!title || !date) {
+                alert('Please fill in title and date');
+                return;
+            }
+            
+            const result = await apiCall('/calendar', 'POST', { title, date, time, type });
+            if (result.success) {
+                alert('Event scheduled!');
+                document.getElementById('calendarTitle').value = '';
+                document.getElementById('calendarDate').value = '';
+                loadCalendar();
+            }
+        }
+
+        async function loadCalendar() {
+            const result = await apiCall('/calendar');
+            const listDiv = document.getElementById('calendarList');
+            
+            if (result.success && result.events && result.events.length > 0) {
+                let html = '';
+                result.events.slice(0, 20).forEach(event => {
+                    const eventDate = new Date(event.date);
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${event.title}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">
+                                    ${eventDate.toLocaleDateString()} at ${event.time} • ${event.type}
+                                </div>
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 0.8rem;">${event.status}</div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No events scheduled yet.</p>';
+            }
+        }
+
+        /* --- VIDEO IDEAS --- */
+        async function addVideoIdea() {
+            const title = document.getElementById('ideaTitle').value;
+            const description = document.getElementById('ideaDescription').value;
+            const category = document.getElementById('ideaCategory').value;
+            const priority = document.getElementById('ideaPriority').value;
+            
+            if (!title) {
+                alert('Please enter an idea title');
+                return;
+            }
+            
+            const result = await apiCall('/ideas', 'POST', { title, description, category, priority });
+            if (result.success) {
+                alert('Idea added!');
+                document.getElementById('ideaTitle').value = '';
+                document.getElementById('ideaDescription').value = '';
+                loadIdeas();
+            }
+        }
+
+        async function loadIdeas() {
+            const result = await apiCall('/ideas');
+            const listDiv = document.getElementById('ideasList');
+            
+            if (result.success && result.ideas && result.ideas.length > 0) {
+                let html = '';
+                result.ideas.forEach(idea => {
+                    const priorityColor = idea.priority === 'high' ? '#dc2626' : idea.priority === 'medium' ? '#eab308' : '#22c55e';
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${idea.title}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">${idea.description || 'No description'}</div>
+                                <div style="margin-top: 8px;">
+                                    <span style="background: ${priorityColor}; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-right: 8px;">${idea.priority}</span>
+                                    <span style="color: var(--text-muted); font-size: 0.75rem;">${idea.category}</span>
+                                </div>
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 0.8rem;">${idea.status}</div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No ideas yet. Add one above!</p>';
+            }
+        }
+
+        /* --- ANALYTICS --- */
+        async function addAnalytics() {
+            const date = document.getElementById('analyticsDate').value;
+            const views = parseInt(document.getElementById('analyticsViewsInput').value) || 0;
+            const watchTime = parseFloat(document.getElementById('analyticsWatchTimeInput').value) || 0;
+            const subs = parseInt(document.getElementById('analyticsSubsInput').value) || 0;
+            
+            if (!date) {
+                alert('Please select a date');
+                return;
+            }
+            
+            const result = await apiCall('/analytics', 'POST', { date, views, watch_time: watchTime, subscribers_gained: subs });
+            if (result.success) {
+                alert('Analytics data added!');
+                document.getElementById('analyticsDate').value = '';
+                document.getElementById('analyticsViewsInput').value = '';
+                document.getElementById('analyticsWatchTimeInput').value = '';
+                document.getElementById('analyticsSubsInput').value = '';
+                loadAnalytics();
+            }
+        }
+
+        async function loadAnalytics() {
+            const result = await apiCall('/analytics');
+            
+            if (result.success && result.totals) {
+                document.getElementById('analyticsViews').textContent = formatNumber(result.totals.views);
+                document.getElementById('analyticsWatchTime').textContent = result.totals.watch_time.toFixed(1);
+                document.getElementById('analyticsSubs').textContent = formatNumber(result.totals.subscribers_gained);
+            }
+            
+            const listDiv = document.getElementById('analyticsList');
+            if (result.success && result.analytics && result.analytics.length > 0) {
+                let html = '';
+                result.analytics.slice(0, 10).forEach(a => {
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${new Date(a.date).toLocaleDateString()}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">
+                                    Views: ${formatNumber(a.views)} • Watch Time: ${a.watch_time || 0}h • Subs: ${a.subscribers_gained || 0}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No analytics data yet.</p>';
+            }
+        }
+
+        /* --- REVENUE --- */
+        async function calculateRevenue() {
+            const views = parseInt(document.getElementById('revenueViews').value) || 0;
+            const rpm = parseFloat(document.getElementById('revenueRPM').value) || 2.0;
+            
+            if (!views) {
+                alert('Please enter views');
+                return;
+            }
+            
+            const result = await apiCall('/revenue/calculate', 'POST', { views, rpm });
+            if (result.success) {
+                const resultDiv = document.getElementById('revenueResult');
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 800; color: #22c55e; margin-bottom: 0.5rem;">
+                            $${result.estimated_revenue}
+                        </div>
+                        <div style="color: var(--text-muted);">
+                            Estimated revenue for ${formatNumber(views)} views at $${rpm} RPM
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadRevenue() {
+            const result = await apiCall('/revenue');
+            const listDiv = document.getElementById('revenueList');
+            
+            if (result.success && result.revenue && result.revenue.length > 0) {
+                let html = `<div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-dark); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 0.5rem;">Total Revenue: $${result.total.toFixed(2)}</div>
+                </div>`;
+                result.revenue.slice(0, 10).forEach(r => {
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${new Date(r.date).toLocaleDateString()}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">${r.source}</div>
+                            </div>
+                            <div style="color: #22c55e; font-weight: bold;">$${r.revenue.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No revenue data yet.</p>';
+            }
+        }
+
+        /* --- KEYWORDS --- */
+        async function researchKeyword() {
+            const keyword = document.getElementById('keywordInput').value;
+            if (!keyword) {
+                alert('Please enter a keyword');
+                return;
+            }
+            
+            const result = await apiCall('/keywords/research', 'POST', { keyword });
+            if (result.success && result.keyword) {
+                alert(`Keyword researched!\nSearch Volume: ${formatNumber(result.keyword.search_volume)}\nCompetition: ${result.keyword.competition}\nCPC: $${result.keyword.cpc}`);
+                document.getElementById('keywordInput').value = '';
+                loadKeywords();
+            }
+        }
+
+        async function loadKeywords() {
+            const result = await apiCall('/keywords');
+            const listDiv = document.getElementById('keywordsList');
+            
+            if (result.success && result.keywords && result.keywords.length > 0) {
+                let html = '';
+                result.keywords.forEach(k => {
+                    const compColor = k.competition === 'low' ? '#22c55e' : k.competition === 'medium' ? '#eab308' : '#dc2626';
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${k.keyword}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">
+                                    Volume: ${formatNumber(k.search_volume)} • CPC: $${k.cpc.toFixed(2)}
+                                </div>
+                            </div>
+                            <div style="color: ${compColor}; font-weight: bold; text-transform: uppercase;">${k.competition}</div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No keywords researched yet.</p>';
+            }
+        }
+
+        /* --- VIDEO LIBRARY --- */
+        async function addVideo() {
+            const title = document.getElementById('videoTitle').value;
+            const status = document.getElementById('videoStatus').value;
+            const url = document.getElementById('videoUrl').value;
+            const publishDate = document.getElementById('videoPublishDate').value;
+            
+            if (!title) {
+                alert('Please enter video title');
+                return;
+            }
+            
+            const result = await apiCall('/videos', 'POST', { title, status, url, publish_date: publishDate });
+            if (result.success) {
+                alert('Video added!');
+                document.getElementById('videoTitle').value = '';
+                document.getElementById('videoUrl').value = '';
+                document.getElementById('videoPublishDate').value = '';
+                loadVideos();
+            }
+        }
+
+        async function loadVideos() {
+            const result = await apiCall('/videos');
+            const listDiv = document.getElementById('videosList');
+            
+            if (result.success && result.videos && result.videos.length > 0) {
+                let html = '';
+                result.videos.forEach(video => {
+                    const statusColor = video.status === 'published' ? '#22c55e' : video.status === 'scheduled' ? '#eab308' : '#dc2626';
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${video.title}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">
+                                    ${video.url ? `<a href="${video.url}" target="_blank" style="color: var(--primary);">View Video</a> • ` : ''}
+                                    ${video.publish_date ? `Published: ${new Date(video.publish_date).toLocaleDateString()} • ` : ''}
+                                    Views: ${formatNumber(video.views || 0)}
+                                </div>
+                            </div>
+                            <div style="color: ${statusColor}; font-weight: bold; text-transform: uppercase;">${video.status}</div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = '<p style="color: var(--text-muted);">No videos added yet.</p>';
+            }
+        }
+
+        /* --- EXPORT/IMPORT --- */
+        async function exportData() {
+            const result = await apiCall('/export');
+            if (result) {
+                const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `tubevision-export-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+            }
+        }
+
+        /* --- USER SETTINGS --- */
+        function showUserSettings() {
+            showSection('settings');
+            loadUserProfile();
+        }
+
+        async function loadUserProfile() {
+            const result = await apiCall('/auth/me');
+            if (result.success && result.user) {
+                document.getElementById('settingsName').value = result.user.name || '';
+                document.getElementById('settingsEmail').value = result.user.email || '';
+            }
+        }
+
+        async function updateProfile() {
+            const name = document.getElementById('settingsName').value;
+            const email = document.getElementById('settingsEmail').value;
+            
+            const result = await apiCall('/auth/me', 'PUT', { name, email });
+            if (result.success) {
+                alert('Profile updated successfully!');
+                // Update stored user
+                if (result.user) {
+                    localStorage.setItem('tubevision_user', JSON.stringify(result.user));
+                    updateUserDisplay();
+                }
+            } else {
+                alert('Error: ' + (result.error || 'Failed to update profile'));
+            }
+        }
+
+        async function changePassword() {
+            const current = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            if (newPass !== confirm) {
+                alert('New passwords do not match');
+                return;
+            }
+            
+            const result = await apiCall('/auth/change-password', 'POST', {
+                currentPassword: current,
+                newPassword: newPass
+            });
+            
+            if (result.success) {
+                alert('Password changed successfully!');
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            } else {
+                alert('Error: ' + (result.error || 'Failed to change password'));
+            }
+        }
+
+        async function loadUsers() {
+            const result = await apiCall('/users');
+            const listDiv = document.getElementById('usersList');
+            
+            if (result.success && result.users) {
+                let html = '';
+                result.users.forEach(user => {
+                    html += `
+                        <div class="result-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">${user.name || 'No name'}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">${user.email} • ${user.role || 'user'}</div>
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 0.8rem;">${new Date(user.created_at).toLocaleDateString()}</div>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html || '<p style="color: var(--text-muted);">No users found.</p>';
+            } else {
+                listDiv.innerHTML = '<p style="color: #dc2626;">Error loading users</p>';
+            }
+        }
+
+        function updateUserDisplay() {
+            if (currentUser) {
+                const initials = (currentUser.name || currentUser.email || 'U').substring(0, 2).toUpperCase();
+                document.getElementById('userAvatar').textContent = initials;
+                document.getElementById('userName').textContent = currentUser.name || currentUser.email;
+                document.getElementById('userEmail').textContent = currentUser.email;
+            }
+        }
+
+        /* --- INITIALIZATION --- */
+        window.onload = async () => {
+            // Check authentication first
+            if (!requireAuth()) {
+                return; // Will redirect to login
+            }
+
+            // Update user display
+            updateUserDisplay();
+
+            // Load translations
+            await loadTranslations(currentLanguage);
+            document.getElementById('languageSelect').value = currentLanguage;
+            
+            // Check AI status
+            await checkAIStatus();
+            
+            drawCanvas();
+            loadDashboard();
+            connectWebSocket();
+            loadCompetitors();
+            loadCalendar();
+            loadIdeas();
+            loadAnalytics();
+            loadRevenue();
+            loadKeywords();
+            loadVideos();
+        };
+
+    </script>
+</body>
+</html>
